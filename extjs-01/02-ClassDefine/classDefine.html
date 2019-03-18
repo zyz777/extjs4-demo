@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <!--
+    语法:  Ext.define(class name, class members/properties, callback function);
+    类名称是根据应用程序结构的类名称。 appName.folderName.ClassName
+    -->
+    <link href="../css/ext-all.css" rel="stylesheet" />
+    <script src="../js/ext-all.js"></script>
+    <script src="../js/ext-lang-zh_CN.js"></script>
+
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            Ext.create('Ext.grid.property.Grid', {
+                title : '这个一个表格',
+                width : 300,
+                renderTo: 'grid',
+                source: {
+                    "(name)": "My Object",
+                    "Created": Ext.Date.parse('10/15/2006', 'm/d/Y'),
+                    "Available": false,
+                    "Version": 0.01,
+                    "Description": "A test object"
+                },
+                titleAlign: 'center',
+                // disabled: true,
+            });
+        });
+
+        Ext.define('User', {
+            extend: 'Ext.data.Model',
+            fields: [ 'name', 'email', 'phone' ]
+        });
+
+        var userStore = Ext.create('Ext.data.Store', {
+            model: 'User',
+            data: [
+                { name: 'Lisa', email: 'lisa@simpsons.com', phone: '555-111-1224' },
+                { name: 'Bart', email: 'bart@simpsons.com', phone: '555-222-1234' },
+                { name: 'Homer', email: 'home@simpsons.com', phone: '555-222-1244' },
+                { name: 'Marge', email: 'marge@simpsons.com', phone: '555-222-1254' }
+            ]
+        });
+
+        Ext.onReady(function () {
+            Ext.create('Ext.grid.Panel', {
+                renderTo: 'grid02',
+                store: userStore,
+                width: 400,
+                height: 200,
+                title: 'Application Users',
+                columns: [
+                    {
+                        text: 'Name',
+                        width: 100,
+                        sortable: false,
+                        hideable: false,
+                        dataIndex: 'name'
+                    },
+                    {
+                        text: 'Email Address',
+                        width: 150,
+                        dataIndex: 'email',
+                        hidden: true
+                    },
+                    {
+                        text: 'Phone Number',
+                        flex: 1,
+                        dataIndex: 'phone'
+                    }
+                ]
+            });
+        });
+
+
+    </script>
+
+</head>
+<body>
+
+<div id="grid" ></div>
+<br/><br/><br/>
+<div id="grid02"></div>
+
+</body>
+</html>

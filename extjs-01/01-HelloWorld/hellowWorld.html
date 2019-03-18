@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <link href="../css/ext-theme-classic-all.css" rel="stylesheet" />
+    <script src="../js/ext-all.js"></script>
+    <script src="../js/ext-lang-zh_CN.js"></script>
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            Ext.create('Ext.Panel', {
+                renderTo: 'helloWorldPanel',
+                height: 200,
+                width: 600,
+                title: 'Hello world',
+                html: 'Explanation<br/>' +
+                'Ext.onReady（）方法将在Ext JS准备好渲染Ext JS元素时调用。<br/>' +
+                'Ext.create（）方法用于在Ext JS中创建对象，这里我们创建一个简单的面板类Ext.Panel的对象。<br/>' +
+                'Ext.Panel是Ext JS中用于创建面板的预定义类。<br/>' +
+                '每个Ext JS类都有不同的属性来执行一些基本的功能。<br/>' +
+                '<br/>' +
+                'Ext.Panel类有以下各种属性:<br/>' +
+                'renderTo 是此面板必须呈现的元素。 \\\'helloWorldPanel\\\'是Index.html文件中的div id。<br/>' +
+                'Height 和宽度属性用于提供面板的自定义尺寸。<br/>' +
+                'Title 属性是为面板提供标题。<br/>' +
+                'Html 属性是要在面板中显示的html内容。'
+            });
+        });
+    </script>
+</head>
+<body>
+
+<div id="helloWorldPanel" />
+
+</body>
+</html>
