@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>加载非XML文件和XML文件</title>
+
+    <link rel="stylesheet" type="text/css" href="../../extjs/resources/css/ext-all.css">
+    <!--<script type="text/javascript" src="../../extjs/bootstrap.js" ></script>-->
+    <script src="../../extjs/ext-all.js"></script>
+    <script type="text/javascript" src="../../extjs/ext-lang-zh_CN.js"></script>
+</head>
+<body>
+
+<input id="button1" type="button" value="加载非XML文件" />&nbsp;&nbsp;
+<input id="button2" type="button" value="加载XML文件" />
+
+<div id="ajaxinfo"></div>
+
+<script>
+
+    var callback = function(o, s, r) {
+        var html = [];
+        html.push('<p>success: '+s);
+        console.log(r['responseText']);
+        for (var i in r) {
+            if (r.hasOwnProperty(i)) {
+                switch (i) {
+                    case 'getAllResponseHeaders':
+                        var d = r['getAllResponseHeaders']();
+                        for (var j in d) {
+                            if (d.hasOwnProperty(j)) {
+                                html.push('<p>response[getAllResponseHeaders]['+j+']: ' + d[j]);
+                            }
+                        }
+                        break;
+                    case 'getResponseHeader':
+                        break;
+                    case 'responseXML':
+                        var doc = r[i];
+                        if (doc) {
+                            var  t = '';
+                            if (doc.xml) {
+                                t = Ext.htmlEncode(r[i].xml);
+                            } else {
+                                t = Ext.htmlEncode((new XMLSerializer()).serializeToString(doc));
+                                html.push('<p>response['+i+']: ' + t);
+                            }
+                        }
+                        break;
+                    case 'options':
+                        break;
+                    default:
+                        html.push('<p>response['+i+']: ' + r[i]);
+
+                }
+            }
+        }
+        Ext.getDom('ajaxinfo').innerHTML=html.join('');
+    }
+
+    Ext.onReady(function () {
+        Ext.fly("button1").on("click", function () {
+            Ext.Ajax.request({
+                url: "test.js",
+                callback: callback,
+            });
+        });
+
+        Ext.fly('button2').on("click", function () {
+            Ext.Ajax.request({
+                url:'test.xml',
+                callback:callback,
+            });
+        });
+    });
+
+
+</script>
+
+</body>
+</html>
