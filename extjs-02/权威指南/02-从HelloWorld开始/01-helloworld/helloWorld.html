@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HelloWorld</title>
+
+    <link rel="stylesheet" type="text/css" href="../../extjs/resources/css/ext-all.css">
+    <script type="text/javascript" src="../../extjs/bootstrap.js" ></script>
+    <script src="../../extjs/ext-all.js"></script>
+    <script type="text/javascript" src="../../extjs/ext-lang-zh_CN.js"></script>
+</head>
+<body>
+
+<script>
+    Ext.onReady(function () {
+        if (Ext.BLANK_IMAGE_URL.substr(0,4) != "data") {
+            // Ext.BLANK_IMAGE_URL = ""
+            console.info("111");
+        }
+        new Ext.Viewport({
+            // layout: 'fix',
+            layout: {
+                type: 'hbox',
+                align: 'middle'
+            },
+            items: [
+                {
+                    xtype:'panel',
+                    title:' 欢迎 ',
+                    html:'<h1 style="text-align: center;font-size: 60px;font-weight: bold">Hello World</h1>'
+                }
+            ]
+        });
+    });
+
+
+</script>
+
+
+</body>
+</html>

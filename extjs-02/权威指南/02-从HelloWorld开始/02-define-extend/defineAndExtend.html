@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>定义类与继承、mixins</title>
+
+    <link rel="stylesheet" type="text/css" href="../../extjs/resources/css/ext-all.css">
+    <!--<script type="text/javascript" src="../../extjs/bootstrap.js" ></script>-->
+    <script src="../../extjs/ext-all.js"></script>
+    <script type="text/javascript" src="../../extjs/ext-lang-zh_CN.js"></script>
+
+</head>
+<body>
+<!--********************************-->
+<script>
+    /*
+     * 定义一个 Calculator 的类
+     * 类里面有  加减乘除 4个方法
+     *
+     * */
+    Ext.define('Calculator', {
+       constructor: function () {
+           console.info('Calculator构造方法');
+           return this;
+       },
+       plus: function (v1, v2) {
+           console.info('加法, v1='+ v1+ ', v2='+ v2);
+           return v1+v2;
+       },
+        minus: function (v1, v2) {
+            console.info('减法, v1='+ v1+ ', v2='+ v2);
+            return v1-v2;
+        },
+        multiply:function (v1, v2) {
+            console.info('乘法, v1='+ v1+ ', v2='+ v2);
+            return v1*v2;
+        },
+        divid:function (v1, v2) {
+            console.info('除法, v1='+ v1+ ', v2='+ v2);
+            return v1/v2;
+        }
+    });
+
+    var cal = Ext.create('Calculator');
+    console.info(cal.plus(87,28));
+    console.info(cal.minus(87,28));
+    console.info(cal.multiply(7,8));
+    console.info(cal.divid(28,7));
+
+    console.info("===============1 end=========================");
+</script>
+<!--********************************-->
+
+<script>
+    /*
+    * 定义一个类 NewCalculator 继承 Calculator
+    * 增加方法:  十进制转换为十六进制的方法
+    *
+    * */
+    Ext.define('NewCalculator', {
+        extend: 'Calculator',
+        hex: function (v1) {
+            console.info('十进制转换为十六进制的方法, v1='+v1);
+            return v1.toString(16);
+        }
+    });
+    var ncal = Ext.create('NewCalculator');
+    console.log(ncal.hex(28));
+
+    console.info("================2 end========================");
+</script>
+
+<!--********************************-->
+<script>
+    /*
+    * 定义不同进制的转换类, HEX, BIN, OCT
+    * 将它们混合进 NewCalculator2 类里面
+    *
+    * */
+    Ext.define('HEX', {
+        hex: function (v1) {
+            console.info('hex 方法, v1='+v1);
+            return v1.toString(16);
+        }
+    });
+    Ext.define('BIN', {
+        bin: function (v1) {
+            console.info('bin 方法, v1='+v1);
+            return v1.toString(2);
+        }
+    });
+    Ext.define('OCT', {
+       oct: function (v1) {
+           console.info('oct 方法, v1='+v1);
+           return v1.toString(8);
+       }
+    });
+    Ext.define('NewCalculator2', {
+        extend: 'Calculator',
+        mixins: {
+            Hex: 'HEX',
+            Bin: 'BIN',
+            Oct: 'OCT'
+        },
+        convert: function (value, type) {
+            switch (type) {
+                case 2:
+                    console.info("case 2, value="+value);
+                    return this.bin(value);
+                    break;
+                case 8:
+                    console.info("case 8, value="+value);
+                    return this.oct(value);
+                    break;
+                default:
+                    console.info("default, value="+value);
+                    return this.mixins.Hex.hex.call(this, value);
+                    break;
+            }
+        }
+    });
+    var ncal2 = Ext.create('NewCalculator2');
+    console.info(ncal2.convert(25, 2));
+    console.info(ncal2.convert(25, 8));
+    console.info(ncal2.convert(25, 16));
+
+    console.info("================3 end========================");
+</script>
+
+<!---->
+<script>
+    /*
+    * 可以定义一个 Convert类
+    * 声明一个属性, type
+    * 该属性在 initConfig 执行后, 会自动生成 applyType, setType, getType, resetType方法,
+    * 当type的值发生改变, 就会触发 applyType方法, 重写该方法即可
+    *
+    * */
+    Ext.define('Convert', {
+        config:{
+            type: 'hex'
+        },
+        type_num:16,
+        constructor: function (config) {
+            console.info("Convert的构造方法");
+            this.initConfig(config);
+            return this;
+        },
+        applyType: function (type) {
+            console.info('触发applyType方法');
+            this.type_num= type=='hex' ? 16 : ( type == 'oct' ? 8:2);
+            return type;
+        },
+        convert: function (v) {
+            console.info('触发convert方法, v='+v + ', type='+this.type);
+            return v.toString(this.type_num);
+        }
+    });
+
+    var cv = Ext.create('Convert');
+    console.info(cv.convert(29));
+
+    cv.setType('oct');
+    console.info(cv.convert(29));
+
+    cv.setType('bin');
+    console.info(cv.convert(29));
+
+    console.info("================4 end========================");
+</script>
+
+<script>
+    /*
+    * 把 Convert 类
+    * 变成静态方法
+    *
+    * */
+    Ext.define('Convert2', {
+        statics: {
+            hex: function (v) {
+                console.info('静态 hex');
+                return v.toString(16);
+            },
+            oct: function (v) {
+                console.info('静态 oct');
+                return v.toString(8);
+            },
+            bin: function (v) {
+                console.info('静态 bin');
+                return v.toString(2);
+            }
+        },
+        constructor: function (config) {
+            return this;
+        }
+    });
+
+    console.info(Convert2.hex(29));
+    console.info(Convert2.oct(29));
+    console.info(Convert2.bin(29));
+
+    console.info("================5 end========================");
+</script>
+
+</body>
+</html>
