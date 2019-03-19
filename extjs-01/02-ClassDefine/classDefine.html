@@ -14,7 +14,7 @@
     <script type="text/javascript">
         Ext.onReady(function () {
             Ext.create('Ext.grid.property.Grid', {
-                title : '这个一个表格',
+                title : '这个一个属性表格, 只有键值对',
                 width : 300,
                 renderTo: 'grid',
                 source: {
@@ -29,50 +29,53 @@
             });
         });
 
-        Ext.define('User', {
-            extend: 'Ext.data.Model',
-            fields: [ 'name', 'email', 'phone' ]
-        });
+        /*==================================================================================*/
 
-        var userStore = Ext.create('Ext.data.Store', {
-            model: 'User',
+        /* 数据源 */
+        Ext.create('Ext.data.Store', {
+            storeId:'simpsonsStore',
+            fields: ['name', 'email', 'phone'],
             data: [
-                { name: 'Lisa', email: 'lisa@simpsons.com', phone: '555-111-1224' },
-                { name: 'Bart', email: 'bart@simpsons.com', phone: '555-222-1234' },
-                { name: 'Homer', email: 'home@simpsons.com', phone: '555-222-1244' },
-                { name: 'Marge', email: 'marge@simpsons.com', phone: '555-222-1254' }
-            ]
+                { 'name': 'Lisa',  "email":"lisa@simpsons.com",  "phone":"555-111-1224"  },
+                { 'name': 'Bart',  "email":"bart@simpsons.com",  "phone":"555-222-1234" },
+                { 'name': 'Homer', "email":"home@simpsons.com",  "phone":"555-222-1244"  },
+                { 'name': 'Marge', "email":"marge@simpsons.com", "phone":"555-222-1254"  }
+            ],
         });
 
-        Ext.onReady(function () {
-            Ext.create('Ext.grid.Panel', {
+        /* 定义一个类, 去继承 Ext.grid.Panel */
+        Ext.define('appName.classDefine.TestExtendPanel', {
+            extend: 'Ext.grid.Panel',
+            columns: [
+                {
+                    text: '姓名',
+                    dataIndex: 'name',
+                    sortable: false,
+                    hideable: false,
+                    flex: 1
+                },
+                {
+                    text: '邮箱',
+                    dataIndex: 'email',
+                    width: 200,
+                    hidden: false
+                },
+                {
+                    text: '电话',
+                    dataIndex: 'phone',
+                    width: 100
+                }
+            ]
+        })
+
+       Ext.onReady(function () {
+            Ext.create('appName.classDefine.TestExtendPanel', {
+                title: '这是一个继承自Ext.grid.Panel的自定义类',
+                store: Ext.data.StoreManager.lookup('simpsonsStore'),
                 renderTo: 'grid02',
-                store: userStore,
-                width: 400,
-                height: 200,
-                title: 'Application Users',
-                columns: [
-                    {
-                        text: 'Name',
-                        width: 100,
-                        sortable: false,
-                        hideable: false,
-                        dataIndex: 'name'
-                    },
-                    {
-                        text: 'Email Address',
-                        width: 150,
-                        dataIndex: 'email',
-                        hidden: true
-                    },
-                    {
-                        text: 'Phone Number',
-                        flex: 1,
-                        dataIndex: 'phone'
-                    }
-                ]
+                width: 300,
             });
-        });
+       });
 
 
     </script>
