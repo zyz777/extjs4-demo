@@ -10,8 +10,98 @@
     <script type="text/javascript" src="../../extjs/ext-lang-zh_CN.js"></script>
 
     <!--
-   功能描述: 仿eclipse界面     P515
+   功能描述: 仿eclipse界面     P515, P518
     -->
+    <script>
+    Ext.onReady(function () {
+        Ext.create('Ext.Viewport', {
+            layout: 'border',
+            items: [
+                {
+                    region: 'north',
+                    height: 81,
+                    title: '布局设计示例一：仿Eclipse界面',
+                    dockedItems: [
+                        {
+                            xtype: 'toolbar',
+                            dock: 'top',
+                            items: [
+                                {
+                                    xtype: 'splitbutton',
+                                    text: '文件',
+                                    menu: [
+                                        {text: '打开'},
+                                        {text: '关闭'}
+                                    ]
+                                }
+                            ],
+                        },
+                        {
+                            xtype: 'toolbar',
+                            dock: 'top',
+                            items: [
+                                {text: '工具栏'}
+                            ]
+                        },
+                    ],
+                },
+                {
+                    region: 'south',
+                    height: 28,
+                    tbar:[
+                        {text:'底部工具栏'}
+                    ]
+                },
+                {
+                    region: 'west',
+                    xtype:'tabpanel',
+                    split:true,
+                    width:200,
+                    minWidth:100,
+                    items: [
+                        {title:'项目资源管理器', closable:true}
+                    ]
+                },
+                {
+                    region:'center',
+                    layout:'border',
+                    // border:false,
+                    items: [
+                        {
+                            region:'center',
+                            xtype:'tabpanel',
+                            items:[
+                                {title:'Index.jsp',closable:true}
+                            ]
+                        }  ,
+                        {
+                            region:'east',
+                            split:true,
+                            width:200,
+                            minWidth:100,
+                            xtype:'tabpanel',
+                            items:[
+                                {title:'大纲',closable:true}
+                            ]
+                        },
+                        {
+                            region:'south',
+                            xtype:'tabpanel',
+                            split:true,
+                            height:200,
+                            minHeight:100,
+                            items:[
+                                {title:'属性',closable:true},
+                                {title:'进度',closable:true},
+                                {title:'服务器',closable:true}
+                            ]
+                        }
+                    ],
+                }
+            ],
+        });
+    });
+    </script>
 
 </head>
 <body>
