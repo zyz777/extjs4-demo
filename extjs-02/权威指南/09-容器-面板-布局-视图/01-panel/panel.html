@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" type="text/css" href="../../extjs/resources/css/ext-all.css">
+    <!--<script type="text/javascript" src="../../extjs/bootstrap.js" ></script>-->
+    <script src="../../extjs/ext-all.js"></script>
+    <script type="text/javascript" src="../../extjs/ext-lang-zh_CN.js"></script>
+
+    <script>
+        Ext.onReady(function () {
+
+            Ext.create('Ext.panel.Panel', {
+                renderTo: 'p1',
+                title: '面板',
+                tbar: [{xtype: 'button', text: '上'}],
+                bbar: [{xtype: 'button', text: '下'}],
+                lbar: [{xtype: 'button', text: '左'}],
+                rbar: [{xtype: 'button', text: '右'}],
+                buttons: [{xtype: 'button', text: '确定'}],
+                tools: [{type: 'refresh'}, {type: 'help'}, {type: 'save'}, {type: 'search'}],
+                html: 'body',
+                width: 500,
+                height: 300
+            });
+
+            var panel2 = Ext.create('Ext.panel.Panel', {
+                renderTo: 'p2',
+                title: '面板2',
+                tbar: [{xtype: 'button', text: '上'}],
+                html: 'body',
+                width:200,
+                height:100,
+                bodyStyle: "background:#DFE9F6",
+                frame: true
+            });
+            // panel2.close();
+
+            Ext.create('Ext.panel.Panel', {
+                renderTo: 'p3',
+                title: '面板3',
+                width:200,
+                height:300,
+                layout:'accordion',
+                items:[
+                    {title:'面板a'},
+                    {title:'面板b'},
+                    {title:'面板c'},
+                ]
+            });
+
+        });
+
+
+
+    </script>
+
+</head>
+<body>
+
+<div id="p1"></div>
+<p></p>
+<div id="p2"></div>
+<p></p>
+<div id="p3"></div>
+
+</body>
+</html>
