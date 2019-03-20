@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" type="text/css" href="../../extjs/resources/css/ext-all.css">
+    <!--<script type="text/javascript" src="../../extjs/bootstrap.js" ></script>-->
+    <script src="../../extjs/ext-all.js"></script>
+    <script type="text/javascript" src="../../extjs/ext-lang-zh_CN.js"></script>
+
+    <!--
+    功能描述: 如何使用 AjaxProxy 读取远程数据以及如何操作这些数据
+    -->
+    <script>
+        //todo 1. 定义一个模型类
+        Ext.define('Products', {
+           extend: 'Ext.data.Model',
+           fields: [
+               {name:"id", type:"int"},
+               'productName',
+               {name:"supplierId", type:"int"},
+               {name:"categoryId", type:"int"},
+               'quantityPerUnit',
+               {name:"unitPrice", type:"float"},
+               {name:"unitsInStock", type:"int"},
+               {name:"unitsOnOrder", type:"int"},
+               {name:"reorderLevel", type:"int"},
+               {name:"discontinued", type:"bool"},
+           ],
+        });
+
+        Ext.onReady(function () {
+            //todo 2. 创建一个商店(集合)
+            //根据 store 的定义, 服务器返回的数据格式应该是:
+            /*
+            * {
+            *   total: 0,//记录总数
+            *   success: true, //必需的, 说明数据返回成功
+            *   data: [
+            *       ...
+            *   ]
+            * }
+            * */
+            Ext.create('Ext.data.Store', {
+                model: 'Products',
+                autoLoad: true,
+                pageSize: 20,
+                proxy: {
+                    type: 'ajax',
+                    // url: 'http://localhost:8080/extjs_07/products',
+                    api: {
+                        read: 'http://localhost:8080/extjs_07/products',
+                        create: 'http://localhost:8080/extjs_07/products/add',
+                        update: 'http://localhost:8080/extjs_07/products/edit',
+                        destroy: 'http://localhost:8080/extjs_07/products/del'
+                    },
+                    reader: {
+                        type: 'json',
+                        root: 'data', // 要求服务器返回的数据必须在data属性内
+                    }
+                },
+                storeId: "ProductStore", //定义 storeId , 使该 store 可以被管理
+                remoteSort: false, //如果为true, 则需要远程排序, 否则, 以当前数据进行排序, 将会发生数据到后台, 例如 sort: [{"property":"id","direction":"ASC"}]
+            });
+
+            //todo 3. 定义一个 Grid(网格)
+            Ext.create('Ext.grid.Panel', {
+                renderTo: Ext.getBody(),
+                title: '产品列表',
+                titleAlign: 'center',
+                height: 600,
+                width: 1200,
+                store: Ext.data.StoreManager.lookup('ProductStore'),
+                columns: [
+                    {text:'ID', dataIndex:'id'},
+                    {text:'PRODUCT NAME', dataIndex:'productName'},
+                    {text:'SUPPLIER ID', dataIndex:'supplierId'},
+                    {text:'CATEGORY ID', dataIndex:'categoryId'},
+                    {text:'QUANTITY PERU NIT', dataIndex:'quantityPerUnit', width:300},
+                    {text:'UNIT PRICE', dataIndex:'unitPrice'},
+                    {text:'UNITS IN STOCK', dataIndex:'unitsInStock'},
+                    {text:'UNITS ON ORDER', dataIndex:'unitsOnOrder'},
+                    {text:'REORDER LEVEL', dataIndex:'reorderLevel'},
+                    {text:'DISCONTINUED', dataIndex:'discontinued'},
+                ],
+            });
+
+            var store = Ext.StoreManager.get('ProductStore');
+            console.log(store);
+
+        });
+    </script>
+
+</head>
+<body>
+
+</body>
+</html>
