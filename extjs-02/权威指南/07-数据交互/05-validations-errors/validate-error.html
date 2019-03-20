@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" type="text/css" href="../../extjs/resources/css/ext-all.css">
+    <!--<script type="text/javascript" src="../../extjs/bootstrap.js" ></script>-->
+    <script src="../../extjs/ext-all.js"></script>
+    <script type="text/javascript" src="../../extjs/ext-lang-zh_CN.js"></script>
+
+    <!--
+    功能描述: 如何使用验证以及进行错误处理
+    -->
+
+    <script>
+
+        //todo 01
+        var pattern = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+        Ext.define('Feedback', {
+            extend: 'Ext.data.Model',
+            fields: [
+                {name: 'name', type: 'string'},
+                {name: 'email', type: 'string'},
+                {name: 'types', type: 'string'},
+                {name: 'content', type: 'string'},
+            ],
+            validations: [
+                {type: 'presence', field: 'name'},
+                {type: 'presence', field: 'email'},
+                {type: 'presence', field: 'types'},
+                {type: 'presence', field: 'content'},
+                {type: 'length', field: 'content', max: 400},
+                {type: 'inclusion', field: 'types', types: ['投诉', '问题', '建议']},
+                {type: 'format', field: 'email', matcher: pattern},
+                //更深入的内容, 扩展 validations, 标记为 02
+                {type: 'email', field: 'email', matcher: pattern},
+            ]
+        });
+
+        //todo 02 扩展 validations
+        Ext.apply(Ext.data.validations, {
+            emailMessage: '请输入正确的电子邮件',//格式为: 属性名+'Message'
+            email: function (config, value) { //方法名格式: 属性名
+                var rs = config.matcher.test(value);
+                console.info(rs);
+                return rs;
+            }
+        })
+
+        Ext.onReady(function () {
+            var fb = Ext.ModelManager.create({},'Feedback');
+            var err = fb.validate();
+            console.log(err.isValid());//没有错, 返回true
+            console.log("==============");
+
+            console.log(err.getByField('email'));
+        });
+
+
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>
