@@ -58,7 +58,7 @@
         Ext.getDom('ajaxinfo').innerHTML=html.join('');
     }
 
-    Ext.onReady(function () {
+    // Ext.onReady(function () {
         Ext.fly("button1").on("click", function () {
             Ext.Ajax.request({
                 url: "test.js",
@@ -72,7 +72,7 @@
                 callback:callback,
             });
         });
-    });
+    // });
 
 
 </script>

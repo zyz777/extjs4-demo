@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="../../extjs/resources/css/ext-all.css">
+    <!--<script type="text/javascript" src="../../extjs/bootstrap.js" ></script>-->
+    <script src="../../extjs/ext-all.js"></script>
+    <script type="text/javascript" src="../../extjs/ext-lang-zh_CN.js"></script>
+
+    <!--
+    功能描述: 主要验证 RestProxy 的功能
+    -->
+
+    <script>
+        Ext.define('Test', {
+            extend: 'Ext.data.Model',
+            fields: ['id', 'testName'],
+            proxy: {
+                type: 'rest',
+                // format: 'aspx', //java程序请去掉
+                url: 'http://localhost:8080/extjs_07/test'
+            }
+        });
+
+        Ext.onReady(function () {
+            var test='';
+
+            var panel = Ext.create('Ext.Panel', {
+                renderTo: Ext.getBody(),
+                height: 500,
+                width: 400,
+                tbar: [
+                    {
+                        text: '读取',
+                        scope: panel,
+                        handler: function () {
+                            Test.load(1, {
+                                success: function (d, o) {
+                                    test=d;
+                                    panel.update(o.response.responseText);
+                                }
+                            });
+                        }
+                    },
+                    {
+                        text: '新增',
+                        scope: panel,
+                        handler: function () {
+                            var t = Ext.ModelManager.create({id:'',testName:'新增'},'Test');
+                            t.save({
+                                success: function (d, o) {
+                                    panel.update(o.response.responseText);
+                                }
+                            });
+                        }
+                    },
+                    {
+                        text: '更新',
+                        scope: panel,
+                        handler: function () {
+                            //如果id有值, 就是put请求, 否则, 就是post请求
+                            var t = Ext.ModelManager.create({id:2, testName:'更新'},'Test');
+                            console.info(t);
+                            t.save({
+                                success: function (d, o) {
+                                    panel.update(o.response.responseText);
+                                }
+                            })
+                        }
+                    },
+                    {
+                        text: '删除',
+                        scope: panel,
+                        handler: function () {
+                            var t = Ext.ModelManager.create({id:4},'Test');
+                            t.destroy({
+                                success: function (d, o) {
+                                    panel.update(o.response.responseText);
+                                }
+                            });
+                        }
+                    }
+                ]
+            });
+        });
+    </script>
+
+</head>
+<body>
+
+</body>
+</html>

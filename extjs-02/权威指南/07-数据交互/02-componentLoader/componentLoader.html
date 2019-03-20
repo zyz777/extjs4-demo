@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="../../extjs/resources/css/ext-all.css">
+    <!--<script type="text/javascript" src="../../extjs/bootstrap.js" ></script>-->
+    <script src="../../extjs/ext-all.js"></script>
+    <script type="text/javascript" src="../../extjs/ext-lang-zh_CN.js"></script>
+
+
+    <!--
+    功能描述: 在页面中创建一个自动加载面板, 首先, 面板会自动加载一个面板到面板内,
+    然后通过两个按钮, 分别试验增加面板和重写面板两个功能
+    -->
+
+    <script>
+        Ext.onReady(function () {
+            var panel = Ext.create("Ext.Panel", {
+                renderTo: Ext.getBody(),
+                layout: 'auto',
+                height: 500,
+                width: 400,
+                autoLoad: {//要实现动态加载, 需设置
+                    url: "Component.js",
+                    renderer: 'component'
+                },
+                renderer: 'component',
+                tbar: [
+                    {
+                        text: ' 加载组件 ',
+                        scope: panel,
+                        handler: function () {
+                            panel.loader.load({
+                                url: "Component1.js",
+                                renderer: 'component'
+                            })
+                        }
+
+                    },
+                    {
+                        text: ' 加载组件(removeAll) ',
+                        scope: panel,
+                        handler: function () {
+                            panel.loader.load({
+                                url:"Component1.js",
+                                renderer:'component',
+                                removeAll: true
+                            })
+                        }
+                    }
+                ],
+            });
+        });
+    </script>
+
+</head>
+<body>
+
+
+
+</body>
+</html>
