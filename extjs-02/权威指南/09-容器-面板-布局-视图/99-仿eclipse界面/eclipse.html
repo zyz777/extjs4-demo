@@ -10,10 +10,10 @@
     <script type="text/javascript" src="../../extjs/ext-lang-zh_CN.js"></script>
 
     <!--
-   功能描述: 仿eclipse界面     P515, P518
+   功能描述: 仿eclipse界面     P515, P518, P523
     -->
     <script>
-    Ext.onReady(function () {
+   /* Ext.onReady(function () {
         Ext.create('Ext.Viewport', {
             layout: 'border',
             items: [
@@ -100,7 +100,116 @@
                 }
             ],
         });
-    });
+    });*/
+
+   Ext.onReady(function () {
+
+       Ext.create('Ext.Viewport', {
+           layout:"border",
+           items: [
+               {
+                   region: "north", height: 79, title: "布局设计示例: 仿 Eclipse 界面",
+                   dockedItems: [
+                       {
+                           xtype: 'toolbar', dock: "top",
+                           items: [
+                               {
+                                   xtype: 'splitbutton', text: "文件",
+                                   menu: [
+                                       {text:'打开'},
+                                       {text:'关闭'}
+                                   ]
+                               }
+                           ]
+                       },
+                       {
+                           xtype: 'toolbar', dock: 'top',
+                           items: [
+                               '工具栏',
+                               {
+                                   xtype: 'button', text: '按钮1'
+                               },
+                           ]
+                       }
+
+                   ],
+               },
+               {
+                   region: "west",
+                   xtype: 'tabpanel',
+                   split: true,
+                   width: 200,
+                   minWidth: 100,
+                   items: [
+                       {
+                           title: '项目资源管理器', closable: true
+                       },
+                       {
+                           title: '左边标签2', closable: false
+                       }
+                   ]
+               },
+               {
+                   region: "center",
+                   border: false,
+                   xtype: "tabpanel",
+                   items: [
+                       {
+                           title: "Index.jsp", closable: true
+                       },
+                       {
+                           title: "index2.jsp", closable: false
+                       }
+                   ]
+               },
+               {
+                   region: "east",
+                   split: true,
+                   width: 200,
+                   minWidth: 100,
+                   xtype: "tabpanel",
+                   weight: -60,//权重, 值越大, 优秀确定位置;
+                   items: [
+                       {
+                           title: "大纲", closable: true
+                       }
+                   ]
+               },
+               {
+                   region:"south",
+                   xtype: "tabpanel",
+                   split: true,
+                   height:200,
+                   minHeight:100,
+                   weight:-50,
+                   items:[
+                       {
+                           title:"属性",closable:true
+                       },
+                       {
+                           title:"进度",closable:true
+                       },
+                       {
+                           title:"服务器",closable:true
+                       }
+                   ],
+               },
+               {
+                   region: "south",
+                   height: 28,
+                   /*xtype: "toolbar",
+                   items: [
+                       '底部工具栏'
+                   ]*/
+                   tbar: [
+                       "底部工具栏"
+                   ]
+               }
+           ],
+       });
+
+   });
+
     </script>
 
 </head>

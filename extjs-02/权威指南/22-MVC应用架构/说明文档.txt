@@ -1,0 +1,6 @@
+MVC 应用架构
+
+1. 建立相应的目录结构
+2. 建立 index.html , 里面只引用 app.js 和 ext提供的js
+3. 创建启动脚本, app.js
+4. 定义登录对话框 loginWin.js
