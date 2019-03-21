@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" type="text/css" href="../../extjs/resources/css/ext-all.css">
+    <!--<script type="text/javascript" src="../../extjs/bootstrap.js" ></script>-->
+    <script src="../../extjs/ext-all.js"></script>
+    <script type="text/javascript" src="../../extjs/ext-lang-zh_CN.js"></script>
+
+    <script>
+        /*
+        * Ext.Panel 属性,方法
+        *     title
+        *     tbar, bbar  上位置工具条,下位置工具条
+        *     collapseFirst, collapsed, collapsedCls, collapsible  与面板折叠相关的配置
+        *     floating, shadow   浮动阴影效果
+        *     html   直接设置面板内容
+        * */
+
+        Ext.onReady(function () {
+            var panel = Ext.create("Ext.Panel", {
+                renderTo: Ext.getBody(),
+                width: 200,
+                height: 150,
+                pageX: 100,
+                pageY: 50,
+                title: '测试标题',
+                floating: true,//浮动
+                shadow: true,//影子, floating为true才生效
+                draggable: true,//拖动
+                collapsible: true,//向上折叠
+                html: '这是内容<br/>换行'
+            });
+            // panel.hide();
+        });
+
+    </script>
+
+</head>
+<body>
+
+
+</body>
+</html>

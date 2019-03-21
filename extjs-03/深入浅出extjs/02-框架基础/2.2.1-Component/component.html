@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" type="text/css" href="../../extjs/resources/css/ext-all.css">
+    <!--<script type="text/javascript" src="../../extjs/bootstrap.js" ></script>-->
+    <script src="../../extjs/ext-all.js"></script>
+    <script type="text/javascript" src="../../extjs/ext-lang-zh_CN.js"></script>
+
+    <script>
+        /*
+        * 所有可视组件都继承 Ext.Component
+        * 常用方法:
+        *   initComponent()  初始化
+        *   render()   渲染
+        *   show(), hide()  显示, 隐藏
+        * */
+        Ext.onReady(function () {
+            Ext.create("Ext.Component", {
+                renderTo: 'test',
+                style: 'background-color:red;position:absolute',
+                width:200,
+                height: 150,
+                pageX: 100,
+                pageY: 50
+            });
+        });
+    </script>
+
+</head>
+<body>
+
+<div id="test"></div>
+
+
+</body>
+</html>

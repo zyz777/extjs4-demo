@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" type="text/css" href="../../extjs/resources/css/ext-all.css">
+    <!--<script type="text/javascript" src="../../extjs/bootstrap.js" ></script>-->
+    <script src="../../extjs/ext-all.js"></script>
+    <script type="text/javascript" src="../../extjs/ext-lang-zh_CN.js"></script>
+
+    <script>
+        /*
+        * 自定义事件
+        *
+        * 所有继承 Ext.util.Observable 的控件都可以支持事件
+        * */
+
+        Ext.define('Person', {
+            extend: 'Ext.util.Observable',
+            config: {
+                name: '张三'
+            },
+            info: function (event) {
+                return this.name + ' is ' + event + 'ing.';
+            },
+            walk: function () {
+                Ext.Msg.alert('event标题', this.name + " 在走啊走啊");
+            },
+            eat: function() {
+                Ext.Msg.alert('event', this.name + " 正在吃饭");
+            },
+            sleep: function () {
+                Ext.Msg.alert('event', this.name + " 已经睡觉了");
+            },
+            dream: function() {
+                Ext.Msg.alert('event', this.name + " 做了个美梦");
+            }
+        });
+
+
+        Ext.onReady(function () {
+            var person = Ext.create('Person');
+
+            var panel = Ext.create("Ext.Panel", {
+                renderTo: Ext.getBody(),
+                width: 200,
+                height: 150,
+                pageX: 100,
+                pageY: 50,
+                title: '测试标题',
+                floating: true,//浮动
+                shadow: true,//影子, floating为true才生效
+                draggable: true,//拖动
+                collapsible: true,//向上折叠
+                items: [
+                    {
+                        xtype:'button', text:'walk', id:'b1',
+                    },
+                    {
+                        xtype:'button', text:'eat', id:'b2',
+                    },
+                    {
+                        xtype:'button', text:'sleep', id:'b3',
+                    },
+                ]
+            });
+
+            Ext.get('b1').on('click', function () {
+                person.walk();
+            });
+            Ext.get('b2').on('click', function () {
+                person.eat();
+            });
+            Ext.get('b3').on('click', function () {
+                person.sleep();
+            });
+            Ext.get('b3').on('click', function () {
+                // person.dream();  无法调用方法???
+                console.info('打印');
+            });
+        });
+
+    </script>
+
+</head>
+<body>
+
+
+</body>
+</html>

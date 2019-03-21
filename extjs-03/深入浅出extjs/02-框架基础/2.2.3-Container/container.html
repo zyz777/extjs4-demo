@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" type="text/css" href="../../extjs/resources/css/ext-all.css">
+    <!--<script type="text/javascript" src="../../extjs/bootstrap.js" ></script>-->
+    <script src="../../extjs/ext-all.js"></script>
+    <script type="text/javascript" src="../../extjs/ext-lang-zh_CN.js"></script>
+
+    <script>
+        /*
+        * Ext.Container 继承 Ext.Component
+        * 重要参数:
+        *      layout  指定当前组件使用何种布局
+        *      items   当前组件中的所有子组件
+        * 重要概念:
+        *      xtype  简化配置
+        *      例如  new Ext.Panel  简化  xtype: 'panel'
+        * */
+        Ext.onReady(function () {
+            Ext.create("Ext.Viewport", {
+                renderTo: Ext.getBody(),
+                layout: 'border',
+                items: [
+                    new Ext.Panel({region: 'north', height:50, html:'<h1>北</h1>'}),
+                    {
+                        xtype: 'panel',//没写, 默认为panel
+                        region: 'south',
+                        height:50,
+                        html:'<h1>南</h1>'
+                    }
+                ]
+            });
+        });
+
+
+    </script>
+
+</head>
+<body>
+
+</body>
+</html>
