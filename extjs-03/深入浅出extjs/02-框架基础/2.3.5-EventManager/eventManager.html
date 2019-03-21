@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" type="text/css" href="../../extjs/resources/css/ext-all.css">
+    <!--<script type="text/javascript" src="../../extjs/bootstrap.js" ></script>-->
+    <script src="../../extjs/ext-all.js"></script>
+    <script type="text/javascript" src="../../extjs/ext-lang-zh_CN.js"></script>
+
+    <script>
+        /*
+        * EventManager: 事件管理器
+        * 常用属性：
+        *   onDocumentReady   就是常用的 Ext.onReady()
+        *   onWindowResize    监听浏览器窗口的大小变化，监听函数只有两个参数 width, height
+        *
+        * */
+
+        Ext.EventManager.onWindowResize(function (width, height) {
+            Ext.Msg.alert('浏览器窗口大小变化了', 'width: '+ width + ", height: " + height);
+        });
+
+    </script>
+
+
+</head>
+<body>
+
+</body>
+</html>
