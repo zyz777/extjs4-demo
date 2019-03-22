@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" type="text/css" href="../../extjs/resources/css/ext-all.css">
+    <!--<script type="text/javascript" src="../../extjs/bootstrap.js" ></script>-->
+    <script src="../../extjs/ext-all.js"></script>
+    <script type="text/javascript" src="../../extjs/ext-lang-zh_CN.js"></script>
+
+    <script>
+        /*
+       * 可编辑表格控件 EditorGrid
+       *
+       * 功能描述: 添加一行数据
+       * */
+        var comboData = [
+            ['0','新版ext教材'],
+            ['1','ext在线支持'],
+            ['2', 'ext扩展']
+        ];
+
+        var columns = [
+            {
+                header:'数字列', dataIndex:'number',
+                editor: Ext.create("Ext.form.NumberField", {
+                    //xtype: '', //因为没有指定 xtype, 默认都使用 TextField
+                    allowBlank: false, //不能为空
+                    allowNegative: false, //不能为负数
+                    maxValue: 10
+                })
+            },
+            {
+                header:'选择列', dataIndex:'combo',
+                editor: Ext.create("Ext.form.ComboBox", {
+                    store: Ext.create('Ext.data.SimpleStore', {
+                        fields: ['value','text'],
+                        data: comboData
+                    }),
+                    emptyText: '请选择',
+                    mode: 'local',
+                    triggerAction: 'all',
+                    valueField: 'value',
+                    displayField: 'text',
+                    editable: false, //不能使用readOnly设置只读, 应该改为 editable
+                }),
+                renderer: function (value) {// renderer 如果没有写该函数, 数据回显只是value值,而不是text
+                    return comboData[value][1];
+                }
+            },
+            {
+                header:'日期列', dataIndex:'date',
+                editor: Ext.create("Ext.form.DateField", {
+                    format: 'Y-m-d',
+                    minValue: '2018-1-1',
+                    disabledDays: [0, 6], //禁止选择星期几
+                    disabledDaysText: '只能选择工作日'
+                }),
+                renderer: function (value) {
+                    return Ext.Date.format(value, 'Y-m-d');
+                }
+            },
+            {
+                header:'判断列', dataIndex:'check',
+                editor: Ext.create("Ext.form.Checkbox", {
+                    allowBlank: false
+                }),
+                renderer: function (value) {
+                    return value ? '是':'否';
+                }
+            },
+        ];
+
+        var data = [
+            [1.1, 1, new Date(), true],
+            [2.2, 2, new Date(), false],
+            [3.3, 0, new Date(), true],
+            [4.4, 1, new Date(), false],
+            [5.5, 2, new Date(), true],
+        ];
+
+        var store = Ext.create("Ext.data.ArrayStore", {
+            fields: [
+                {name: 'number'},
+                {name: 'combo'},
+                {name: 'date'},
+                {name: 'check'},
+            ],
+            data: data,
+            storeId: "dataStore",
+        });
+
+        Ext.onReady(function () {
+
+            Ext.create("Ext.grid.GridPanel", {
+                renderTo: Ext.getBody(),
+                autoHeight: true,
+                width: 500,
+                // store: Ext.data.StoreManager.lookup('dataStore'),
+                store: store,
+                columns: columns,
+                // selType: 'cellmodel',//我搞不懂这行加不加有何区别
+                plugins: [
+                    Ext.create("Ext.grid.plugin.CellEditing", {
+                        // clicksToEdit: 1 //默认双击单元格激活编辑器, 可以设置为单击
+                    })
+                ],
+            });
+
+        });
+
+
+    </script>
+
+</head>
+<body>
+
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" type="text/css" href="../../extjs/resources/css/ext-all.css">
+    <!--<script type="text/javascript" src="../../extjs/bootstrap.js" ></script>-->
+    <script src="../../extjs/ext-all.js"></script>
+    <script type="text/javascript" src="../../extjs/ext-lang-zh_CN.js"></script>
+
+    <script>
+        /*
+        * 可编辑表格控件 EditorGrid
+        *
+        * 功能描述: 添加一行数据
+        * */
+
+        var columns = [
+            {
+                header:'编号', dataIndex:'id',
+                editor: {
+                    //xtype: '', //因为没有指定 xtype, 默认都使用 TextField
+                    allowBlank: false, //不能为空
+                }
+            },
+            {
+                header:'名称', dataIndex:'name',
+                editor: {
+                    allowBlank: false, //不能为空
+                }
+            },
+            {
+                header:'描述', dataIndex:'descn',
+                editor: {
+                    allowBlank: false, //不能为空
+                }
+            },
+        ];
+
+        var data = [
+            ['1', 'name1', 'descn1'],
+            ['2', 'name2', 'descn2'],
+            ['3', 'name3', 'descn3'],
+            ['4', 'name4', 'descn4'],
+            ['5', 'name5', 'descn5'],
+        ];
+        var store = Ext.create("Ext.data.ArrayStore", {
+            data: data,
+            fields: [
+                {name:'id'},
+                {name:'name'},
+                {name:'descn'},
+            ],
+            storeId: "dataStore",
+        });
+
+        Ext.onReady(function () {
+
+            var grid = Ext.create("Ext.grid.GridPanel", {
+                autoHeight: true,
+                renderTo: Ext.getBody(),
+                width: 500,
+                store: store,
+                columns: columns,
+                selType: 'cellmodel',//我搞不懂这行加不加有何区别
+                plugins: [
+                    Ext.create("Ext.grid.plugin.CellEditing", {
+                        // clicksToEdit: 1 //默认双击单元格激活编辑器, 可以设置为单击
+                    })
+                ],
+                tbar: [
+                    '-',
+                    {
+                        text: '添加一行',
+                        handler: function () {
+                            var p = {
+                                id:'',
+                                name:'',
+                                descn:''
+                            };
+                            // grid.stopEditing();  //没有该方法
+                            store.insert(0, p);
+                        }
+                    },
+                    '-',
+                    {
+                        text: '删除一行',
+                        handler: function () {
+                            Ext.Msg.confirm('信息', '确定要删除?', function (btn) {
+                                if (btn == 'yes') {
+                                    var sm = grid.getSelectionModel();
+                                    var record = sm.getSelection()[0];
+                                    store.remove(record);
+                                }
+                            })
+                        }
+                    },
+                    '-',
+                    {
+                        text: '保存',
+                        handler: function () {
+                            var m = store.getModifiedRecords().slice(0);
+                            var jsonArray = [];
+                            Ext.each(m, function (item) {
+                                jsonArray.push(item.data);
+                            });
+                            var param = 'data=' + encodeURIComponent(Ext.encode(jsonArray));
+                            console.log(param);
+
+                            Ext.Ajax.request({
+                                method: 'POST',
+                                url: 'http://localhost:8080/srqc/extjs03/test3_12_3',
+                                success: function (response) {
+                                    Ext.Msg.alert('信息', response.responseText, function () {
+                                        store.reload();
+                                    })
+                                },
+                                failure: function () {
+                                    Ext.Msg.alert('错误', '请求服务器失败');
+                                },
+                                params: param
+                            });
+                        }
+                    },
+                    '-'
+                ]
+            });
+
+
+        });
+    </script>
+
+</head>
+<body>
+
+</body>
+</html>

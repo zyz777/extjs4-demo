@@ -56,6 +56,7 @@
 
             //因为使用了 分页, 所以这里要执行 load, 不然数据不会去请求出来
             store.load();
+            // store.sort([{property: 'id', direction: 'DESC'}, {property: 'name', direction: 'ASC'}, {property: 'descn', direction: 'DESC'}]);  //测试不起用
         });
 
     </script>

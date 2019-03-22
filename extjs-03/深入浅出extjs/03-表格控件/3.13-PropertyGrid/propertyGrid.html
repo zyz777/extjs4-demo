@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" type="text/css" href="../../extjs/resources/css/ext-all.css">
+    <!--<script type="text/javascript" src="../../extjs/bootstrap.js" ></script>-->
+    <script src="../../extjs/ext-all.js"></script>
+    <script type="text/javascript" src="../../extjs/ext-lang-zh_CN.js"></script>
+
+    <script>
+
+        Ext.onReady(function () {
+            var grid = Ext.create("Ext.grid.PropertyGrid", {
+                renderTo: Ext.getBody(),
+                autoHeight: true,
+                width: 300,
+                title: '这是个属性表格',
+                // viewConfig: {
+                //     forceFit: false,
+                // },
+                source: {
+                    "名字": "啊啊啊",
+                    "创建时间": new Date(),
+                    "是否有效": false,
+                    "版本号": .01,
+                    "描述": "嗯呃呃呃呃"
+                }
+            });
+
+            //可以实现停用编辑功能
+            grid.on("beforeedit", function (e) {
+                e.cancel = true;
+                return false;
+            })
+
+        });
+
+    </script>
+
+</head>
+<body>
+
+</body>
+</html>

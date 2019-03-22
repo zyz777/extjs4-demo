@@ -1,13 +1,16 @@
 package com.zyz.extjs.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zyz.extjs.entity.Response;
 import com.zyz.extjs.entity.User;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 /**
@@ -53,6 +56,12 @@ public class SRQC_Extjs03Controller {
         }
 
         return new Response(size, rsList);
+    }
+
+    @RequestMapping("/test3_12_3")
+    public Response test3_12_3(@RequestParam("data") String data) {
+        System.out.println(data);
+        return new Response();
     }
 
 }
