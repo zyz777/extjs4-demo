@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="../../extjs/resources/css/ext-all.css">
+    <!--<script type="text/javascript" src="../../extjs/bootstrap.js" ></script>-->
+    <script src="../../extjs/ext-all.js"></script>
+    <script type="text/javascript" src="../../extjs/ext-lang-zh_CN.js"></script>
+
+
+    <script>
+        var columns = [
+            {header:'编号', dataIndex:'id'},
+            {header:'名称', dataIndex:'name'},
+            {header:'描述', dataIndex:'descn'},
+        ];
+
+        var store = Ext.create('Ext.data.ArrayStore',{
+            fields: [
+                {name:'id'},
+                {name:'name'},
+                {name:'descn'}
+            ],
+            proxy: {
+                type: 'ajax',
+                url: 'http://localhost:8080/srqc/extjs03/test3_9_2',
+                reader: {
+                    type: 'json',
+                    totalProperty: 'total', //默认为 total
+                    root: 'data',
+                    idProperty: 'id',  //默认为 id
+                }
+            },
+            storeId: "dataStore",
+            pageSize: 20,
+            remoteSort: false, //如果为true, 则需要远程排序, 否则, 以当前数据进行排序, 将会发生数据到后台, 例如 sort: [{"property":"id","direction":"ASC"}]
+        });
+        Ext.onReady(function () {
+            var gridPanel = Ext.create("Ext.grid.GridPanel", {
+                autoHeight: true,
+                renderTo: Ext.getBody(),
+                width: 505,
+                // store: Ext.data.StoreManager.lookup('dataStore'),
+                store: store,
+                columns: columns,
+                bbar: Ext.create("Ext.PagingToolbar", {
+                    // pageSize: 10, //这里设置pageSize没有用
+                    store: store,
+                    displayInfo: true,
+                    displayMsg: '显示第 {0} 条到 {1} 条记录, 一共 {2} 条',
+                    emptyMsg: '没有记录'
+                }),
+                // loadMask: true, //(经过测试, 这个参数不起作用) 在 store 加载完成前会一直显示 “Loading...”, 在后台测试 sleep 1.5秒
+            });
+
+            //因为使用了 分页, 所以这里要执行 load, 不然数据不会去请求出来
+            store.load();
+        });
+
+    </script>
+
+</head>
+<body>
+
+</body>
+</html>

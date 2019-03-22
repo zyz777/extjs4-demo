@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" type="text/css" href="../../extjs/resources/css/ext-all.css">
+    <!--<script type="text/javascript" src="../../extjs/bootstrap.js" ></script>-->
+    <script src="../../extjs/ext-all.js"></script>
+    <script type="text/javascript" src="../../extjs/ext-lang-zh_CN.js"></script>
+
+
+    <script>
+        /*
+        P48
+        * Ext.grid.GridPanel 继承自 Ext.Panel
+        * xtype 为 grid。
+        * 必须包含列定义信息，并指定表格的数据存储器。
+        * 列信息由数组 columns 定义，而数据存储器由 Ext.data.Store 定义
+        *
+        * */
+        // {header:'编号', dataIndex:'id', sortabel: true, renderer: '', width: '', format: '', ...},
+        var columns = [
+            new Ext.grid.RowNumberer(),//行号
+            {header:'编号', dataIndex:'id'},
+            {header:'名称', dataIndex:'name'},
+            {header:'描述', dataIndex:'descn'},
+            {header:'日期', dataIndex:'date', renderer: Ext.util.Format.dateRenderer('Y/m/d')},
+        ];
+
+
+        var data = [
+            ['1', 'name1', 'descn1', '2019-01-29T02:58:03', 'male'],
+            ['2', 'name2', 'descn2', '2019-01-29T02:58:03', 'female'],
+            ['3', 'name3', 'descn3', '2019-01-29T02:58:03', 'male'],
+            ['4', 'name4', 'descn4', '2019-01-29T02:58:03', 'female'],
+            ['5', 'name5', 'descn5', '2019-01-29T02:58:03', 'male'],
+        ];
+        var store = Ext.create("Ext.data.ArrayStore", {
+            data: data,
+            fields: [
+                {name:'id'},
+                {name:'name'},
+                {name:'descn'},
+                {name:'date', type:'date', dateFormat: 'Y-m-dTH:i:s'},//dateFormat 要和值对应上，双方有任何不一致，数据都会展示不出来
+            ],
+            storeId: "dataStore",
+        });
+
+        Ext.onReady(function () {
+            var gridPanel = Ext.create("Ext.grid.GridPanel", {
+                autoHeight: true,
+                renderTo: Ext.getBody(),
+                width: 500,
+                // store: Ext.data.StoreManager.lookup('dataStore'),
+                store: store,
+                columns: columns,
+                // enableColumnMove: false,//拖放列，默认true
+                // enableColumnResize: false,//改变宽度，默认true
+                // stripeRows: false,//斑马线效果
+                // loadMask: true, //在 store 加载完成前会一直显示 “Loading...”
+                // forceFit: true, //自动计算每列的宽度
+                bbar: Ext.create("Ext.PagingToolbar", {
+                   pageSize: 2, //这里设置pageSize是无效
+                   store: store,
+                   displayInfo: true,
+                   displayMsg: '显示第 {0} 条到 {1} 条记录, 一共 {2} 条',
+                   emptyMsg: '没有记录'
+                }),
+            });
+        });
+
+    </script>
+
+
+</head>
+<body>
+
+</body>
+</html>

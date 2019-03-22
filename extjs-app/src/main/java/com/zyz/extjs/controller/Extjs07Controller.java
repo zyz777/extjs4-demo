@@ -3,6 +3,7 @@ package com.zyz.extjs.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zyz.extjs.entity.Products;
+import com.zyz.extjs.entity.Response;
 import com.zyz.extjs.entity.Test;
 import org.springframework.web.bind.annotation.*;
 
@@ -85,40 +86,7 @@ public class Extjs07Controller {
         }
     }
 
-    class Response {
-        private boolean success = true;
-        private int total;
-        private Object data;
 
-        public Response(int total, Object data) {
-            this.total = total;
-            this.data = data;
-        }
-
-        public boolean isSuccess() {
-            return success;
-        }
-
-        public void setSuccess(boolean success) {
-            this.success = success;
-        }
-
-        public int getTotal() {
-            return total;
-        }
-
-        public void setTotal(int total) {
-            this.total = total;
-        }
-
-        public Object getData() {
-            return data;
-        }
-
-        public void setData(Object data) {
-            this.data = data;
-        }
-    }
 
     //page=1&start=0&limit=20
     @RequestMapping("/products")
@@ -132,6 +100,7 @@ public class Extjs07Controller {
         for (int i = startIndex; i < endIndex && i<=size; i++) {
             rsList.add(list.get(i));
         }
+
         return new Response(size, rsList);
     }
 
