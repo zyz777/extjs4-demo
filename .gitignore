@@ -5,3 +5,7 @@ extjs-app/.mvn/*
 extjs-app/mvnw.cmd
 extjs-app/mvnw
 extjs-03/extjs-03.iml
+extjs4-mvc/mvnw.cmd
+extjs4-mvc/mvnw
+extjs4-mvc/.mvn/*
+mvc/mvc.iml
